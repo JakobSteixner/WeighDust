@@ -10,21 +10,27 @@ import pygrib
 getfilename
 
 class RequiredFile(pygrib.open):
-    def __init__(self, repository, downloadfolders, idstring):
+    """class to provide a pygrib.open instance for a data stream
+    that may or may not be present locally. If present locally,
+    a download is evaded, otherwise, the file is pulled from a specified
+    repository.
+    """
+    def __init__(self, repository, downloadfolders, idstring, debugmode=False):
         self.repository = repository
         self.downloadfolders = downloadfolders
         success = -1
         while success:
             success = self._download_new()
             if success:
-                time.sleep(1.5)
+                time.sleep(2.5)
+                # avoid accidental DoS
         self =pygrib.open(self.filelocation)
     def _download_new(self):
         #code to download speficied file, storing its location
         # as self.filelocation
         print ("downloading...")
         #code to test whether download was successful
-        if True:
+        if True: #replace with check for successful download
             return 0 #on success
         else:
             return -1
